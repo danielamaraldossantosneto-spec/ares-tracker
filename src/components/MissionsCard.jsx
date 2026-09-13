@@ -29,9 +29,31 @@ export default function MissionsCard() {
     },
   ];
 
-  function concluirMissao(missao) {
-    if (concluidas.includes(missao.nome))
-      return;
+function concluirMissao(missao) {
+  let xpAtual =
+    Number(localStorage.getItem("ares_xp")) || 0;
+
+  let xpTotal =
+    Number(localStorage.getItem("ares_xp_total")) || 0;
+
+  if (concluidas.includes(missao.nome)) {
+
+    const novas =
+      concluidas.filter(
+        (m) => m !== missao.nome
+      );
+
+    setConcluidas(novas);
+
+    localStorage.setItem(
+      "ares_missoes",
+      JSON.stringify(novas)
+    );
+
+    xpAtual -= missao.xp;
+    xpTotal -= missao.xp;
+
+  } else {
 
     const novas = [
       ...concluidas,
@@ -45,26 +67,20 @@ export default function MissionsCard() {
       JSON.stringify(novas)
     );
 
-    const xpAtual =
-      Number(localStorage.getItem("ares_xp")) || 0;
-
-    const xpTotal =
-      Number(localStorage.getItem("ares_xp_total")) || 0;
-
-    localStorage.setItem(
-      "ares_xp",
-      xpAtual + missao.xp
-    );
-
-    localStorage.setItem(
-      "ares_xp_total",
-      xpTotal + missao.xp
-    );
-
-    alert(
-      `🏆 Missão concluída! +${missao.xp} XP`
-    );
+    xpAtual += missao.xp;
+    xpTotal += missao.xp;
   }
+
+  localStorage.setItem(
+    "ares_xp",
+    Math.max(xpAtual, 0)
+  );
+
+  localStorage.setItem(
+    "ares_xp_total",
+    Math.max(xpTotal, 0)
+  );
+}
 
   return (
     <div className="card">
@@ -86,8 +102,14 @@ export default function MissionsCard() {
               borderRadius: "10px",
               cursor: "pointer",
               background: feita
-                ? "#0f5132"
-                : "#1a1a1a",
+  ? "rgba(34,197,94,.25)"
+  : "#1a1a1a",
+
+border: feita
+  ? "1px solid #22c55e"
+  : "1px solid #333",
+
+transition: "0.3s",
             }}
           >
             {feita ? "✅" : "⬜"} {m.nome}
