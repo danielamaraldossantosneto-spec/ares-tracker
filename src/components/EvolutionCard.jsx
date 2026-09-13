@@ -1,39 +1,54 @@
 export default function EvolutionCard() {
-  const pesoInicial = 81;
   const pesoAtual = 79;
+  const pesoMeta = 75;
 
-  const gorduraInicial = 18;
   const gorduraAtual = 14;
+  const gorduraMeta = 10;
+
+  const progressoPeso =
+    ((81 - pesoAtual) / (81 - pesoMeta)) * 100;
+
+  const progressoGordura =
+    ((18 - gorduraAtual) / (18 - gorduraMeta)) * 100;
 
   return (
     <div className="card">
       <h2>📈 Evolução Física</h2>
 
       <p>
-        ⚖️ Peso: {pesoInicial}kg → {pesoAtual}kg
+        ⚖️ Peso: {pesoAtual}kg / {pesoMeta}kg
       </p>
 
-      <p>
-        🧬 Gordura: {gorduraInicial}% → {gorduraAtual}%
-      </p>
-
-      <p>
-        🔥 Resultado:
-        {" "}
-        {pesoInicial - pesoAtual}kg eliminados
-      </p>
-
-      <div className="goal-progress">
+      <div className="xp-bar">
         <div
-          className="goal-fill"
+          className="xp-fill"
           style={{
-            width: "65%",
+            width: `${Math.min(
+              progressoPeso,
+              100
+            )}%`,
           }}
         />
       </div>
 
       <p>
-        🎯 Shape São Paulo: 65%
+        🧬 Gordura: {gorduraAtual}% / {gorduraMeta}%
+      </p>
+
+      <div className="xp-bar">
+        <div
+          className="xp-fill"
+          style={{
+            width: `${Math.min(
+              progressoGordura,
+              100
+            )}%`,
+          }}
+        />
+      </div>
+
+      <p style={{ marginTop: "15px" }}>
+        🎯 Projeto Tanquinho São Paulo
       </p>
     </div>
   );
