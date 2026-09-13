@@ -55,13 +55,24 @@ export default function WorkoutCard() {
     ],
   };
 
-  const [dia, setDia] = useState("Segunda");
+  const [dia, setDia] = useState(() => {
+  return (
+    localStorage.getItem("ares_dia") ||
+    "Segunda"
+  );
+});
 
   const [concluidos, setConcluidos] = useState(() => {
     const salvo = localStorage.getItem("ares_treinos");
     return salvo ? JSON.parse(salvo) : [];
   });
 
+  useEffect(() => {
+  localStorage.setItem(
+    "ares_dia",
+    dia
+  );
+}, [dia]);
   useEffect(() => {
     localStorage.setItem(
       "ares_treinos",
@@ -107,36 +118,37 @@ function marcar(exercicio) {
     "ares_xp_total",
     xpTotalAtual
   );
-const bossHp =
-  Number(localStorage.getItem("ares_boss_hp")) ||
-  10000;
 
-const novoHp = Math.max(
-  bossHp - 100,
-  0
-);
+  const bossHp =
+    Number(localStorage.getItem("ares_boss_hp")) ||
+    10000;
 
-localStorage.setItem(
-  "ares_boss_hp",
-  novoHp
-);
-
-if (novoHp === 0) {
-  alert(
-    "🏆 BOSS DERROTADO! +500 XP"
+  const novoHp = Math.max(
+    bossHp - 100,
+    0
   );
 
   localStorage.setItem(
     "ares_boss_hp",
-    10000
+    novoHp
   );
 
-  localStorage.setItem(
-    "ares_xp_total",
-    xpTotalAtual + 500
-  );
-}
-  window.location.reload();
+  if (novoHp === 0) {
+
+    alert(
+      "🏆 BOSS DERROTADO! +500 XP"
+    );
+
+    localStorage.setItem(
+      "ares_boss_hp",
+      10000
+    );
+
+    localStorage.setItem(
+      "ares_xp_total",
+      xpTotalAtual + 500
+    );
+  }
 }
 
   const feitos = treinos[dia].filter((e) =>
