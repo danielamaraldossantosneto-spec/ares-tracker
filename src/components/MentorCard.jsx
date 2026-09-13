@@ -4,6 +4,14 @@ export default function MentorCard() {
   const xpTotal =
     Number(localStorage.getItem("ares_xp_total")) || 0;
 
+  const missoes =
+    JSON.parse(
+      localStorage.getItem("ares_missoes")
+    ) || [];
+
+  const bossHp =
+    Number(localStorage.getItem("ares_boss_hp")) || 10000;
+
   let proximoTitulo = "🛡️ Guerreiro";
   let falta = 500 - xpTotal;
 
@@ -27,60 +35,98 @@ export default function MentorCard() {
     falta = 10000 - xpTotal;
   }
 
+  const progressoMissoes =
+    Math.round((missoes.length / 4) * 100);
+
+  let mensagem =
+    "⚔️ Continue avançando, guerreiro.";
+
+  if (progressoMissoes === 100)
+    mensagem =
+      "🏆 Todas as missões foram concluídas hoje.";
+
+  else if (progressoMissoes >= 75)
+    mensagem =
+      "🔥 Você está muito perto de um dia perfeito.";
+
+  else if (progressoMissoes >= 50)
+    mensagem =
+      "💪 Bom progresso, mas ainda há trabalho a fazer.";
+
+  else
+    mensagem =
+      "⚠️ Seu potencial é maior do que seu esforço de hoje.";
+
   return (
     <div className="card">
+
       <h2>🧠 Conselho do Gepetão</h2>
 
       <p>
-        Daniel, você está no nível{" "}
-        {playerData.nivel}.
+        Daniel, você é um{" "}
+        <strong>
+          {playerData.classe}
+        </strong>
       </p>
 
       <p>
-        Classe atual:
-        {" "}
-        {playerData.classe}
-      </p>
-
-      <p>
-        XP Total:
+        ⚡ XP Total:
         {" "}
         {xpTotal}
       </p>
 
       <p>
-        Faltam{" "}
-        {Math.max(falta, 0)}
+        🎯 Faltam{" "}
+        <strong>
+          {Math.max(falta, 0)}
+        </strong>
         {" "}
-        XP para:
+        XP para alcançar:
       </p>
 
       <p>
-        {proximoTitulo}
+        <strong>
+          {proximoTitulo}
+        </strong>
       </p>
 
       <hr />
 
       <p>
-        🎯 Meta de hoje:
+        📋 Missões concluídas:
+        {" "}
+        {missoes.length}/4
       </p>
 
       <p>
-        🚶 6000 passos
+        📈 Progresso diário:
+        {" "}
+        {progressoMissoes}%
       </p>
 
       <p>
-        🫀 3 km cardio
+        👹 HP do Boss:
+        {" "}
+        {bossHp.toLocaleString()}
       </p>
 
-      <p>
-        🏋️ Treino completo
-      </p>
+      <hr />
 
       <p>
-        ⚔️ Continue avançando,
-        guerreiro.
+        🎯 Prioridades de hoje:
       </p>
+
+      <p>🏋️ Treino completo</p>
+      <p>🚶 6000 passos</p>
+      <p>🏃 3 km cardio</p>
+      <p>💧 3L de água</p>
+
+      <hr />
+
+      <p>
+        {mensagem}
+      </p>
+
     </div>
   );
 }
