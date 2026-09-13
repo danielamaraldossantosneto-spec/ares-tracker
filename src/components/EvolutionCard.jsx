@@ -1,22 +1,28 @@
 export default function EvolutionCard() {
+  const pesoInicial = 81;
   const pesoAtual = 79;
   const pesoMeta = 75;
 
+  const gorduraInicial = 18;
   const gorduraAtual = 14;
   const gorduraMeta = 10;
 
   const progressoPeso =
-    ((81 - pesoAtual) / (81 - pesoMeta)) * 100;
+    ((pesoInicial - pesoAtual) /
+      (pesoInicial - pesoMeta)) *
+    100;
 
   const progressoGordura =
-    ((18 - gorduraAtual) / (18 - gorduraMeta)) * 100;
+    ((gorduraInicial - gorduraAtual) /
+      (gorduraInicial - gorduraMeta)) *
+    100;
 
   return (
     <div className="card">
       <h2>📈 Evolução Física</h2>
 
       <p>
-        ⚖️ Peso: {pesoAtual}kg / {pesoMeta}kg
+        ⚖️ Peso Atual: {pesoAtual}kg
       </p>
 
       <div className="xp-bar">
@@ -32,7 +38,13 @@ export default function EvolutionCard() {
       </div>
 
       <p>
-        🧬 Gordura: {gorduraAtual}% / {gorduraMeta}%
+        🎯 Meta: {pesoMeta}kg
+      </p>
+
+      <br />
+
+      <p>
+        🧬 BF Atual: {gorduraAtual}%
       </p>
 
       <div className="xp-bar">
@@ -47,8 +59,25 @@ export default function EvolutionCard() {
         />
       </div>
 
-      <p style={{ marginTop: "15px" }}>
-        🎯 Projeto Tanquinho São Paulo
+      <p>
+        🎯 Meta BF: {gorduraMeta}%
+      </p>
+
+      <hr />
+
+      <p>
+        🏛️ Projeto Tanquinho São Paulo
+      </p>
+
+      <p>
+        Progresso Geral:
+        {" "}
+        {Math.round(
+          (progressoPeso +
+            progressoGordura) /
+            2
+        )}
+        %
       </p>
     </div>
   );

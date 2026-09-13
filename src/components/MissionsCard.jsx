@@ -29,62 +29,87 @@ export default function MissionsCard() {
     },
   ];
 
-function concluirMissao(missao) {
-  let xpAtual =
-    Number(localStorage.getItem("ares_xp")) || 0;
+  function concluirMissao(missao) {
+    let xpAtual =
+      Number(localStorage.getItem("ares_xp")) || 0;
 
-  let xpTotal =
-    Number(localStorage.getItem("ares_xp_total")) || 0;
+    let xpTotal =
+      Number(localStorage.getItem("ares_xp_total")) || 0;
 
-  if (concluidas.includes(missao.nome)) {
+    if (concluidas.includes(missao.nome)) {
 
-    const novas =
-      concluidas.filter(
-        (m) => m !== missao.nome
+      const novas =
+        concluidas.filter(
+          (m) => m !== missao.nome
+        );
+
+      setConcluidas(novas);
+
+      localStorage.setItem(
+        "ares_missoes",
+        JSON.stringify(novas)
       );
 
-    setConcluidas(novas);
+      xpAtual -= missao.xp;
+      xpTotal -= missao.xp;
+
+    } else {
+
+      const novas = [
+        ...concluidas,
+        missao.nome,
+      ];
+
+      setConcluidas(novas);
+
+      localStorage.setItem(
+        "ares_missoes",
+        JSON.stringify(novas)
+      );
+
+      xpAtual += missao.xp;
+      xpTotal += missao.xp;
+    }
 
     localStorage.setItem(
-      "ares_missoes",
-      JSON.stringify(novas)
+      "ares_xp",
+      Math.max(xpAtual, 0)
     );
-
-    xpAtual -= missao.xp;
-    xpTotal -= missao.xp;
-
-  } else {
-
-    const novas = [
-      ...concluidas,
-      missao.nome,
-    ];
-
-    setConcluidas(novas);
 
     localStorage.setItem(
-      "ares_missoes",
-      JSON.stringify(novas)
+      "ares_xp_total",
+      Math.max(xpTotal, 0)
     );
-
-    xpAtual += missao.xp;
-    xpTotal += missao.xp;
   }
 
-  localStorage.setItem(
-    "ares_xp",
-    Math.max(xpAtual, 0)
-  );
-
-  localStorage.setItem(
-    "ares_xp_total",
-    Math.max(xpTotal, 0)
-  );
-}
+  const progresso =
+    (concluidas.length /
+      missoes.length) *
+    100;
 
   return (
     <div className="card">
+
       <h2>⚔️ Missões Diárias</h2>
+
+      <p>
+        Concluídas:
+        {" "}
+        {concluidas.length}
+        /
+        {missoes.length}
+      </p>
+
+      <div className="xp-bar">
+        <div
+          className="xp-fill"
+          style={{
+            width: `${progresso}%`,
+          }}
+        />
+      </div>
+
+      <br />
 
       {missoes.map((m) => {
         const feita =
@@ -101,22 +126,25 @@ function concluirMissao(missao) {
               marginBottom: "10px",
               borderRadius: "10px",
               cursor: "pointer",
+
               background: feita
-  ? "rgba(34,197,94,.25)"
-  : "#1a1a1a",
+                ? "rgba(34,197,94,.25)"
+                : "#1a1a1a",
 
-border: feita
-  ? "1px solid #22c55e"
-  : "1px solid #333",
+              border: feita
+                ? "1px solid #22c55e"
+                : "1px solid #333",
 
-transition: "0.3s",
+              transition: "0.3s",
             }}
           >
-            {feita ? "✅" : "⬜"} {m.nome}
+            {feita ? "✅" : "⬜"}{" "}
+            {m.nome}
 
             <span
               style={{
                 float: "right",
+                fontWeight: "bold",
               }}
             >
               +{m.xp} XP
@@ -124,6 +152,23 @@ transition: "0.3s",
           </div>
         );
       })}
+
+      {progresso === 100 && (
+        <div
+          style={{
+            marginTop: "15px",
+            padding: "10px",
+            borderRadius: "10px",
+            background:
+              "rgba(255,215,0,.15)",
+            border:
+              "1px solid gold",
+          }}
+        >
+          🏆 Todas as missões concluídas!
+        </div>
+      )}
+
     </div>
   );
 }

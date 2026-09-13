@@ -7,12 +7,44 @@ export default function StatsCard() {
   const nivel =
     Math.floor(xpTotal / 100) + 1;
 
+  const xpAtual =
+    xpTotal % 100;
+
+  const xpProximoNivel = 100;
+
+  let titulo;
+
+  if (xpTotal >= 10000)
+    titulo = "⚔️ Deus da Guerra";
+  else if (xpTotal >= 5000)
+    titulo = "👑 Semideus";
+  else if (xpTotal >= 3000)
+    titulo = "🏛️ Titã";
+  else if (xpTotal >= 1500)
+    titulo = "🏆 Campeão";
+  else if (xpTotal >= 500)
+    titulo = "🛡️ Guerreiro";
+  else
+    titulo = "🌱 Iniciante";
+
+  const progressoNivel =
+    (xpAtual / xpProximoNivel) * 100;
+
   return (
     <div className="card">
+
       <h2>📊 Estatísticas do Guerreiro</h2>
 
       <p>
-        ⚔️ Nível Atual: {nivel}
+        👑 Título: {titulo}
+      </p>
+
+      <p>
+        ⚔️ Nível: {nivel}
+      </p>
+
+      <p>
+        🏆 Rank: {playerData.rank}
       </p>
 
       <p>
@@ -20,13 +52,34 @@ export default function StatsCard() {
       </p>
 
       <p>
-        🏋️ Treinos Concluídos:
+        🔋 XP Atual:
+        {" "}
+        {xpAtual}
+        /
+        {xpProximoNivel}
+      </p>
+
+      <div className="xp-bar">
+        <div
+          className="xp-fill"
+          style={{
+            width: `${progressoNivel}%`,
+          }}
+        />
+      </div>
+
+      <hr />
+
+      <h3>🏋️ Desempenho</h3>
+
+      <p>
+        🏋️ Treinos:
         {" "}
         {playerData.treinosConcluidos}
       </p>
 
       <p>
-        🔥 Streak Atual:
+        🔥 Streak:
         {" "}
         {playerData.streak} dias
       </p>
@@ -38,7 +91,7 @@ export default function StatsCard() {
       </p>
 
       <p>
-        🫀 Cardio Semana:
+        🫀 Cardio:
         {" "}
         {playerData.cardioSemana}
       </p>
@@ -54,7 +107,7 @@ export default function StatsCard() {
       </p>
 
       <p>
-        🧬 Gordura:
+        🧬 BF:
         {" "}
         {playerData.gordura}
       </p>
@@ -82,6 +135,14 @@ export default function StatsCard() {
         {" "}
         103 cm
       </p>
+
+      <hr />
+
+      <p>
+        🎯 Objetivo:
+        Projeto Tanquinho São Paulo
+      </p>
+
     </div>
   );
 }

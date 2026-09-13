@@ -7,6 +7,7 @@ import AchievementsCard from "./components/AchievementsCard";
 import ProfileCard from "./components/ProfileCard";
 import StatsCard from "./components/StatsCard";
 import RecordsCard from "./components/RecordsCard";
+import MentorCard from "./components/MentorCard";
 import WorkoutCard from "./components/WorkoutCard";
 
 export default function App() {
@@ -67,6 +68,7 @@ export default function App() {
   <BossCard />
   <EvolutionCard />
   <MissionsCard />
+  <MentorCard />
 </div>
 
       <WorkoutCard />
