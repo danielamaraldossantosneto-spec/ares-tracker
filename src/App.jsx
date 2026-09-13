@@ -1,4 +1,5 @@
 import "./App.css";
+import MissionsCard from "./components/MissionsCard";
 import EvolutionCard from "./components/EvolutionCard";
 import BossCard from "./components/BossCard";
 import playerData from "./data/playerData";
@@ -65,6 +66,7 @@ export default function App() {
   <RecordsCard />
   <BossCard />
   <EvolutionCard />
+  <MissionsCard />
 </div>
 
       <WorkoutCard />
