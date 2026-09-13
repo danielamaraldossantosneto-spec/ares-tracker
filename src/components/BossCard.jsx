@@ -46,4 +46,24 @@ export default function BossCard() {
       </p>
     </div>
   );
+  const xpTotal =
+  Number(localStorage.getItem("ares_xp_total")) || 0;
+
+let bossNome = "🐺 Lobo Sombrio";
+let bossHpMax = 10000;
+
+if (xpTotal >= 1000) {
+  bossNome = "👹 Minotauro";
+  bossHpMax = 20000;
+}
+
+if (xpTotal >= 3000) {
+  bossNome = "🐉 Dragão Ancião";
+  bossHpMax = 50000;
+}
+
+if (xpTotal >= 5000) {
+  bossNome = "⚔️ Ares";
+  bossHpMax = 100000;
+}
 }
